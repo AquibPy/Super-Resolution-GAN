@@ -11,9 +11,9 @@ CHECKPOINT_GEN = "gen.pth.tar"
 CHECKPOINT_DISC = "disc.pth.tar"
 LEARNING_RATE = 1e-4
 NUM_EPOCHS = 100
-BATCH_SIZE = 32
+BATCH_SIZE = 16
 # NUM_WORKERS = 4
-HIGH_RES = 96
+HIGH_RES = 128
 LOW_RES = HIGH_RES // 4
 IMG_CHANNELS = 3
 
@@ -41,8 +41,7 @@ both_transforms = A.Compose(
 
 test_transform = A.Compose(
     [
-        A.Resize(width=LOW_RES,height=LOW_RES,interpolation= Image.BICUBIC),
-        A.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),
-        ToTensorV2(),
+        A.Normalize(mean=[0,0,0],std=[1,1,1]),
+        ToTensorV2()
     ]
 )

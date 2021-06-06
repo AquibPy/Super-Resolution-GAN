@@ -30,7 +30,7 @@ class ResidualBlock(nn.Module):
     
     def forward(self,x):
         out = self.block1(x)
-        out = self.block2(x)
+        out = self.block2(out)
         return out + x
 
 class Generator(nn.Module):
@@ -56,7 +56,7 @@ class Discriminator(nn.Module):
         for idx, feature in enumerate(features):
             blocks.append(ConvBlock(in_channels,feature,kernel_size=3,padding=1,
             stride= 1 + idx%2,discriminator=True,use_act=True,
-            use_bn=False if idx%2==0 else True))
+            use_bn=False if idx==0 else True))
             in_channels = feature
         self.block = nn.Sequential(*blocks)
         self.classifier = nn.Sequential(
