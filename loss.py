@@ -1,11 +1,11 @@
 import torch.nn as nn
-from torchvision.models import vgg19_bn
+from torchvision.models import vgg19
 import config
 
 class VGGLoss(nn.Module):
     def __init__(self):
         super().__init__()
-        self.vgg = vgg19_bn(pretrained=True).features[:36].eval().to(config.DEVICE)
+        self.vgg = vgg19(pretrained=True).features[:36].eval().to(config.DEVICE)
         self.loss = nn.MSELoss()
 
         for params in self.vgg.parameters():

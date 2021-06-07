@@ -6,7 +6,7 @@ class ConvBlock(nn.Module):
         super().__init__()
         self.use_act = use_act
         self.bn = nn.BatchNorm2d(out_channels) if use_bn else nn.Identity()
-        self.cnn = nn.Conv2d(in_channels,out_channels,**kwargs,bias=False)
+        self.cnn = nn.Conv2d(in_channels,out_channels,**kwargs,bias=not use_bn)
         self.act = (nn.LeakyReLU(0.2,inplace=True) if discriminator else nn.PReLU(num_parameters=out_channels))
     
     def forward(self,x):
@@ -60,9 +60,9 @@ class Discriminator(nn.Module):
             in_channels = feature
         self.block = nn.Sequential(*blocks)
         self.classifier = nn.Sequential(
-            nn.AdaptiveAvgPool2d((6,6)),
+            nn.AdaptiveAvgPool2d((8,8)),
             nn.Flatten(),
-            nn.Linear(512*6*6,1024),
+            nn.Linear(512*8*8,1024),
             nn.LeakyReLU(0.2,inplace=True),
             nn.Linear(1024,1)
         )

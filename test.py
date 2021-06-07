@@ -7,9 +7,9 @@ from utils import load_checkpoint
 from PIL import Image
 import numpy as np
 
-image_path = "imageedit_1_8854618225.png"
+image_path = "0002.png"
 img = np.array(Image.open(image_path))
-img = config.test_transform(image=img)['image']
+img = config.lowres_transform(image=img)['image']
 img = torch.unsqueeze(img,0).to(config.DEVICE)
 save_image(img,'input.png')
 gen = Generator(in_channels=config.IMG_CHANNELS).to(config.DEVICE)
